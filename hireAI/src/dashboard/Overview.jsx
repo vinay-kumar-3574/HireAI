@@ -83,8 +83,8 @@ export default function Overview() {
                                                 setIsDropdownOpen(false);
                                             }}
                                             className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${selectedPeriod === period
-                                                    ? 'bg-gray-50 text-black'
-                                                    : 'text-gray-600 hover:bg-gray-50/80 hover:text-black'
+                                                ? 'bg-gray-50 text-black'
+                                                : 'text-gray-600 hover:bg-gray-50/80 hover:text-black'
                                                 }`}
                                         >
                                             {period}
