@@ -11,6 +11,7 @@ require('./config/firebase');
 require('./config/passport');
 
 const authRoutes = require('./routes/auth');
+const resumeRoutes = require('./routes/resume');
 
 const app = express();
 
@@ -36,6 +37,7 @@ app.use(passport.session());
 
 // Routes
 app.use('/auth', authRoutes);
+app.use('/api/resumes', resumeRoutes);
 
 app.get('/', (req, res) => {
     res.send('API is running.');
