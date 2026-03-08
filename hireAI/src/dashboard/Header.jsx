@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageSquare, LogOut, User, Settings, ChevronDown } from 'lucide-react';
+import { MessageSquare, LogOut, User, Settings, ChevronDown, Download, X, Copy, Check, ExternalLink } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { authAPI } from '../services/api';
@@ -11,6 +11,8 @@ export default function Header({ user }) {
     const navigate = useNavigate();
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [loggingOut, setLoggingOut] = useState(false);
+    const [showExtensionModal, setShowExtensionModal] = useState(false);
+    const [copied, setCopied] = useState(false);
     const dropdownRef = useRef(null);
 
     // Close dropdown when clicking outside
@@ -54,7 +56,11 @@ export default function Header({ user }) {
                     <span className="text-[10px] font-bold tracking-wider text-black bg-gray-100 px-2.5 py-1 rounded-sm uppercase">Soon</span>
                 </div>
 
-                <button className="hidden sm:block bg-black text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors shadow-sm">
+                <button
+                    onClick={() => setShowExtensionModal(true)}
+                    className="hidden sm:flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors shadow-sm"
+                >
+                    <Download className="w-4 h-4" />
                     Install Extension
                 </button>
 
@@ -121,6 +127,103 @@ export default function Header({ user }) {
                     )}
                 </div>
             </div>
+
+            {/* Extension Installation Modal */}
+            {showExtensionModal && (
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999]" onClick={() => setShowExtensionModal(false)}>
+                    <div
+                        className="bg-white rounded-2xl shadow-2xl w-[480px] max-w-[90vw] overflow-hidden"
+                        onClick={(e) => e.stopPropagation()}
+                        style={{ animation: 'dropdownFadeIn 0.2s ease-out' }}
+                    >
+                        {/* Modal Header */}
+                        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+                            <div className="flex items-center gap-3">
+                                <div className="w-9 h-9 bg-black rounded-lg flex items-center justify-center">
+                                    <Download className="w-4 h-4 text-white" />
+                                </div>
+                                <div>
+                                    <h3 className="text-[15px] font-bold text-gray-900">Install Chrome Extension</h3>
+                                    <p className="text-[12px] text-gray-500">AI Assistant on Every Job Page</p>
+                                </div>
+                            </div>
+                            <button
+                                onClick={() => setShowExtensionModal(false)}
+                                className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-colors"
+                            >
+                                <X className="w-4 h-4 text-gray-400" />
+                            </button>
+                        </div>
+
+                        {/* Modal Body */}
+                        <div className="px-6 py-5">
+                            <div className="space-y-4">
+                                {/* Step 1 */}
+                                <div className="flex gap-3">
+                                    <div className="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5">1</div>
+                                    <div>
+                                        <p className="text-[13px] font-semibold text-gray-900">Open Chrome Extensions Page</p>
+                                        <p className="text-[12px] text-gray-500 mt-0.5">Copy the URL below and paste it in your browser's address bar:</p>
+                                        <div className="flex items-center gap-2 mt-2">
+                                            <code className="flex-1 bg-gray-50 border border-gray-200 px-3 py-2 rounded-lg text-[12px] font-mono text-gray-700">chrome://extensions</code>
+                                            <button
+                                                onClick={() => {
+                                                    navigator.clipboard.writeText('chrome://extensions');
+                                                    setCopied(true);
+                                                    toast.success('Copied to clipboard!');
+                                                    setTimeout(() => setCopied(false), 2000);
+                                                }}
+                                                className="flex items-center gap-1.5 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-[12px] font-medium text-gray-600 hover:bg-gray-100 transition-colors"
+                                            >
+                                                {copied ? <Check className="w-3.5 h-3.5 text-green-600" /> : <Copy className="w-3.5 h-3.5" />}
+                                                {copied ? 'Copied!' : 'Copy'}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Step 2 */}
+                                <div className="flex gap-3">
+                                    <div className="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5">2</div>
+                                    <div>
+                                        <p className="text-[13px] font-semibold text-gray-900">Enable Developer Mode</p>
+                                        <p className="text-[12px] text-gray-500 mt-0.5">Toggle the <span className="font-semibold text-gray-700">"Developer mode"</span> switch in the top-right corner of the page.</p>
+                                    </div>
+                                </div>
+
+                                {/* Step 3 */}
+                                <div className="flex gap-3">
+                                    <div className="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5">3</div>
+                                    <div>
+                                        <p className="text-[13px] font-semibold text-gray-900">Load the Extension</p>
+                                        <p className="text-[12px] text-gray-500 mt-0.5">Click <span className="font-semibold text-gray-700">"Load unpacked"</span> and select the <code className="bg-gray-100 px-1.5 py-0.5 rounded text-[11px] font-mono">chrome-extension</code> folder from the project directory.</p>
+                                    </div>
+                                </div>
+
+                                {/* Step 4 */}
+                                <div className="flex gap-3">
+                                    <div className="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5">4</div>
+                                    <div>
+                                        <p className="text-[13px] font-semibold text-gray-900">Pin & Activate</p>
+                                        <p className="text-[12px] text-gray-500 mt-0.5">Click the puzzle icon <span className="font-semibold">🧩</span> in the toolbar, find <span className="font-semibold text-gray-700">HireAI</span>, and pin it. Then visit any job page and click the icon!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Modal Footer */}
+                        <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
+                            <p className="text-[11px] text-gray-400">Works on LinkedIn, GitHub, Indeed & more</p>
+                            <button
+                                onClick={() => setShowExtensionModal(false)}
+                                className="px-4 py-2 bg-black text-white rounded-lg text-[13px] font-medium hover:bg-gray-800 transition-colors"
+                            >
+                                Got it
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Dropdown animation keyframes */}
             <style>{`
