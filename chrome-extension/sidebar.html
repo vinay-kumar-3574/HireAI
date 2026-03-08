@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HireAI Sidebar</title>
+    <link rel="stylesheet" href="sidebar.css">
+</head>
+
+<body>
+    <div id="sidebar-root">
+
+        <!-- ─── Header ─── -->
+        <header class="sidebar-header">
+            <div class="header-left">
+                <div class="logo-badge">H</div>
+                <div class="header-text">
+                    <h1>HireAI</h1>
+                    <p>AI Assistant on Every Job Page</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="icon-btn" id="editResumeBtn" title="Edit Resume">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+                        <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
+                    </svg>
+                    <span>Edit Resume</span>
+                </button>
+                <div class="user-avatar-btn" id="headerAvatar" title="Account">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                </div>
+            </div>
+        </header>
+
+        <!-- ─── Main Content ─── -->
+        <main class="sidebar-content" id="mainContent">
+
+            <!-- Loading State -->
+            <div class="loading-state" id="loadingState">
+                <div class="loading-spinner"></div>
+                <p>Analyzing job page...</p>
+            </div>
+
+            <!-- Job Info Section -->
+            <section class="section job-info-section" id="jobInfoSection" style="display:none;">
+                <h2 class="job-title" id="jobTitle">Loading...</h2>
+                <p class="company-name" id="companyName">—</p>
+                <div class="job-meta">
+                    <span class="meta-tag" id="jobLocation">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                            <circle cx="12" cy="10" r="3" />
+                        </svg>
+                        <span>—</span>
+                    </span>
+                    <span class="meta-tag" id="jobSalary" style="display:none;">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="12" y1="1" x2="12" y2="23" />
+                            <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
+                        </svg>
+                        <span>—</span>
+                    </span>
+                    <span class="meta-tag" id="jobType">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                            <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16" />
+                        </svg>
+                        <span>Full-time</span>
+                    </span>
+                </div>
+            </section>
+
+            <!-- Key Highlights -->
+            <section class="section" id="highlightsSection" style="display:none;">
+                <div class="section-header">
+                    <h3>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polygon
+                                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                        </svg>
+                        Key Highlights
+                    </h3>
+                </div>
+                <ul class="highlights-list" id="highlightsList"></ul>
+            </section>
+
+            <!-- Skills -->
+            <section class="section" id="skillsSection" style="display:none;">
+                <div class="section-header">
+                    <h3>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path
+                                d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" />
+                        </svg>
+                        Skills
+                    </h3>
+                </div>
+                <div class="skills-tags" id="skillsTags"></div>
+            </section>
+
+            <!-- Qualifications -->
+            <section class="section" id="qualificationsSection" style="display:none;">
+                <div class="section-header">
+                    <h3>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+                            <polyline points="22 4 12 14.01 9 11.01" />
+                        </svg>
+                        Qualifications
+                    </h3>
+                </div>
+                <ul class="qualifications-list" id="qualificationsList"></ul>
+            </section>
+
+            <!-- ATS Score Section (hidden by default, shown after tailoring) -->
+            <section class="section ats-section" id="atsSection" style="display:none;">
+                <div class="section-header">
+                    <h3>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <polyline points="12 6 12 12 16 14" />
+                        </svg>
+                        ATS Match Score
+                    </h3>
+                </div>
+                <div class="ats-score-container">
+                    <div class="ats-circle" id="atsCircle">
+                        <svg viewBox="0 0 120 120">
+                            <circle class="ats-bg" cx="60" cy="60" r="52" />
+                            <circle class="ats-progress" id="atsProgress" cx="60" cy="60" r="52"
+                                stroke-dasharray="326.73" stroke-dashoffset="326.73" />
+                        </svg>
+                        <div class="ats-value">
+                            <span class="ats-number" id="atsNumber">0</span>
+                            <span class="ats-label">MATCH SCORE</span>
+                        </div>
+                    </div>
+                    <p class="ats-recalc" id="atsRecalc" style="display:none;">
+                        <span class="recalc-dot"></span>
+                        AI is recalculating your score...
+                    </p>
+                </div>
+            </section>
+
+            <!-- Job Match Insights (hidden by default) -->
+            <section class="section" id="insightsSection" style="display:none;">
+                <div class="section-header">
+                    <h3>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+                        </svg>
+                        Job Match Insights
+                    </h3>
+                </div>
+                <div class="insights-container" id="insightsContainer"></div>
+            </section>
+
+            <!-- Resume Tailoring Section (hidden by default) -->
+            <section class="section" id="tailoringSection" style="display:none;">
+                <div class="section-header">
+                    <h3>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+                            <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
+                        </svg>
+                        Resume Suggestions
+                    </h3>
+                </div>
+                <div class="suggestions-list" id="suggestionsList"></div>
+                <div class="suggestion-actions" id="suggestionActions" style="display:none;">
+                    <button class="btn btn-success btn-sm" id="acceptAllBtn">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        Accept All Changes
+                    </button>
+                    <button class="btn btn-ghost btn-sm" id="resetChangesBtn">Reset Changes</button>
+                </div>
+            </section>
+
+            <!-- Cover Letter Section (hidden by default) -->
+            <section class="section" id="coverLetterSection" style="display:none;">
+                <div class="section-header">
+                    <h3>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                            <polyline points="14 2 14 8 20 8" />
+                            <line x1="16" y1="13" x2="8" y2="13" />
+                            <line x1="16" y1="17" x2="8" y2="17" />
+                            <polyline points="10 9 9 9 8 9" />
+                        </svg>
+                        Generated Cover Letter
+                    </h3>
+                </div>
+                <div class="cover-letter-content" id="coverLetterContent"></div>
+                <div class="cover-letter-actions">
+                    <button class="btn btn-outline btn-sm" id="copyCoverLetterBtn">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+                        </svg>
+                        Copy to Clipboard
+                    </button>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- ─── Footer Actions ─── -->
+        <footer class="sidebar-footer" id="sidebarFooter">
+            <!-- Mark as Applied -->
+            <div class="applied-row">
+                <label class="checkbox-label" for="markApplied">
+                    <input type="checkbox" id="markApplied">
+                    <span class="checkmark"></span>
+                    Mark as applied
+                </label>
+            </div>
+
+            <!-- Primary Actions -->
+            <div class="action-buttons">
+                <button class="btn btn-primary" id="tailorResumeBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+                        <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
+                    </svg>
+                    Tailor Resume
+                    <span class="btn-badge" id="tailorTime" style="display:none;">~30 sec</span>
+                </button>
+                <button class="btn btn-secondary" id="coverLetterBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                    </svg>
+                    Cover Letter
+                </button>
+            </div>
+
+            <!-- Reload -->
+            <button class="btn btn-reload" id="reloadBtn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="23 4 23 10 17 10" />
+                    <path d="M20.49 15a9 9 0 11-2.12-9.36L23 10" />
+                </svg>
+                Reload Job Details
+            </button>
+
+            <p class="footer-hint">You can use this extension on any job page. Simply click 'Reload Job Details' when
+                you're on a job page.</p>
+        </footer>
+
+    </div>
+
+    <script src="sidebar.js"></script>
+</body>
+
+</html>
